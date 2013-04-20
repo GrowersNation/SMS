@@ -46,7 +46,7 @@ class TextMessageController < ApplicationController
   end
   
   def create_sample(data)
-    SoilSample.create(:pH => data[0], :temperature => data[1] , :moisture => data[2])
+    @sample = SoilSample.create('pH' => data[0], :temperature => data[1] , :moisture => data[2])
     
     render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
   end
