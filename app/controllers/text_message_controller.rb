@@ -49,7 +49,11 @@ class TextMessageController < ApplicationController
   end
   
   def create_sample(params)
-    @sample = SoilSample.create(params)
+    sample = SoilSample.create(params)
+    sample.attributes.keys do |key,value| 
+      @data_string += " #{key}: #{value} " unless value.nil? 
+    end
+    
     render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
   end
 end

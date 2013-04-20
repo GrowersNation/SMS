@@ -1,7 +1,3 @@
 <Response>
-  <Sms>Readings saved with 
-  <% @sample.attributes.keys do |key,value| %>
-    <%= "#{key}: #{value}" unless value.nil? %>
-  <% end %>
-  </Sms>
+  <Sms>Readings saved with @data_string</Sms>
 </Response>
