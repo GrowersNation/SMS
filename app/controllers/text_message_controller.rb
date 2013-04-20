@@ -34,12 +34,13 @@ class TextMessageController < ApplicationController
   end
   
   def request_information(crop, options)
+    @crop = crop
     @options_hash = StringProcessor.string_to_hash(options)
     if @options_hash.length != 2
       render 'incorrect_format.xml.erb', :content_type => 'text/xml' and return
     else
       # hit external service for data then send back
-      render 'crop_info.xml.erb', :content_type => 'text/xml', :crop => crop and return
+      render 'crop_info.xml.erb', :content_type => 'text/xml' and return
     end
   end
   
