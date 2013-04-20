@@ -16,9 +16,13 @@ class TextMessageController < ApplicationController
   def process_message(message)
     message.gsub!(/\s+/, '') #remove white space
     
-    if message.blank?
+    
+    if message.blank? || message =~ /info|start|/
       render 'instructions.xml.erb', :content_type => 'text/xml' and return
     end
+    
+    # validate data
+    # step data
     
     # attempt to split the message
     split = message.split(',')
