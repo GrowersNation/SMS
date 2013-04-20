@@ -22,15 +22,15 @@ describe TextMessageController do
         end
       end
       
-    context "with data in format 9.5,37,70 ph,temp,moisture" do
-      it 'renders the success template' do
-        post :parse, 'Body' => '9.5, 37, 70'
-        response.should render_template 'successful_sample.xml'
-      end
-      
-      it 'saves the data to the database'
-        
-    end
+    # context "with data in format 9.5,37,70 ph,temp,moisture" do
+    #   it 'renders the success template' do
+    #     post :parse, 'Body' => '9.5, 37, 70'
+    #     response.should render_template 'successful_sample.xml'
+    #   end
+    #   
+    #   it 'saves the data to the database'
+    #     
+    # end
     
     context "with data ph=7.9,temp=31.3,lat=51.112,long=52.1223,moisture=21 " do
       it 'renders success' do
@@ -43,6 +43,13 @@ describe TextMessageController do
       it 'renders success' do
         post :parse, 'Body' => 'info corn long=56.111 lat=56.222'
         response.should render_template 'crop_info.xml'
+      end
+    end
+    
+    context "with data info corn long=56.111" do
+      it 'renders success' do
+        post :parse, 'Body' => 'info corn long=56.111 '
+        response.should render_template 'incorrect_format.xml'
       end
     end
   end
