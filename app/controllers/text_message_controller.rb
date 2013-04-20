@@ -20,47 +20,33 @@ class TextMessageController < ApplicationController
   
   def parse
     @original_message = message = params[:Body] + ' '
-
+    debugger
     if message.blank? || message =~ /\Ainfo\s*\z|start/i
-      # send information
-      
       render 'instructions.xml.erb', :content_type => 'text/xml' and return
     elsif message =~ /\Ainfo\s+([A-z]+)\s+([A-z0-9.=\s]+)/i 
       crop = $1
       options = $2
       request_information(crop, options)
-
     else
       # check if sending data
       process_sample_data(message)
     end
-    
   end
   
   def request_information(crop, options)
-    @options_hash = string_to_hash(options)
+    @options_hash = StringProcessor.string_to_hash(options)
     if @options_hash.length != 2
       render 'incorrect_format.xml.erb', :content_type => 'text/xml' and return
     else
       # hit external service for data then send back
-      
       render 'crop_info.xml.erb', :content_type => 'text/xml', :crop => crop and return
     end
   end
   
-  def string_to_hash(str)
-    str_seperated = split_message(str)
-    split_into_hash(str_seperated)
-  end
-  
   def process_sample_data(readings)
     # ph=7.9,temp=31.3,lat=51.112,long=52.1223,moisture=21 
-    
-    # validate data
-    # step data
-    
-    readings_hash = string_to_hash(readings)
-    
+    readings_hash = StringProcessor.string_to_hash(readings)
+    # send to external service for now save to out DB
     @sample = set_soil_params(readings_hash)
 
     render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
@@ -87,18 +73,5 @@ class TextMessageController < ApplicationController
     sample.save
     return sample
   end
-  
-  def split_message(message)
-    message.gsub(/\s*=\s*/, '=').split(/\s+|,/).reject(&:blank?)
-  end
-  
-  def split_into_hash(data)
-    params = {}
-    data.each do |y|
-      key, value = y.split('=')
-      params[key] = value
-    end    
-  
-    return params
-  end
+
 end
