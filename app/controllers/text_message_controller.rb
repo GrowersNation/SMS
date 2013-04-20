@@ -21,8 +21,8 @@ class TextMessageController < ApplicationController
   
   def process_message(message)
     message.gsub!(/\s+/, '') #remove white space
-    debugger
-    if message.blank? || message =~ /info|start|/
+
+    if message.blank? || message =~ /info|start/
       render 'instructions.xml.erb', :content_type => 'text/xml' and return
     end
     
@@ -46,11 +46,7 @@ class TextMessageController < ApplicationController
   end
   
   def create_sample(data)
-    soil_sample = SoilSample.create do |sample|
-      sample.ph = data[0]
-      sample.temperature = data[1]
-      sample.moisture = data[2]
-    end
+    SoilSample.create(:pH => data[0], :temperature => data[1] , :moisture => data[2])
     
     render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
   end
