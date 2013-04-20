@@ -2,7 +2,7 @@ SoilTestingKitSoftware::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
-  match 'text_message/parse' => 'test_message#parse'
+  match 'text_message/parse' => 'text_message#parse'
   resources :soil_samples
   
   # Sample of regular route:
