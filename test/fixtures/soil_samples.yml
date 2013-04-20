@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  ph: 1.5
+  longitude: 1.5
+  latitude: 1.5
+  moisture: 1.5
+  temperature: 1.5
+
+two:
+  ph: 1.5
+  longitude: 1.5
+  latitude: 1.5
+  moisture: 1.5
+  temperature: 1.5

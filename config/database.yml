@@ -1,0 +1,35 @@
+development:
+  adapter: postgresql
+  encoding: utf8
+  host: localhost
+  database: soil_dev
+  username: postgres
+  password: 1234
+
+test:
+  adapter: postgresql
+  encoding: utf8
+  host: localhost
+  database: soil_test
+  username: postgres
+  password: 1234
+
+staging:
+  adapter: postgresql
+  encoding: utf8
+  host: localhost
+  database: soil_staging
+
+production:
+  adapter: postgresql
+  encoding: utf8
+  host: localhost
+  database: soil_production
+
+sexyjordan:
+  adapter: postgresql
+  encoding: utf8
+  host: localhost
+  database: soil_sexyjordan
+  username: postgres
+  password: 1234
