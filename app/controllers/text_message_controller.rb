@@ -44,10 +44,14 @@ class TextMessageController < ApplicationController
     # step data
     
     # attempt to split the message
-    readings = gsub(/\s*=\s*/, '=').split(/\s+|,/).reject!(&:blank?)
+    readings = split_message(message)
     
     process_data(readings)
    
+  end
+  
+  def split_message(message)
+    message.gsub(/\s*=\s*/, '=').split(/\s+|,/).reject!(&:blank?)
   end
   
   def process_data(data)
