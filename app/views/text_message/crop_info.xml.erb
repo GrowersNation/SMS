@@ -1,3 +1,3 @@
 <Response>
-  <Sms><%= @crop %> for <%= @options_hash %></Sms>
+  <Sms><%= @crop %> at <%= @options_hash.map{|k,v| "#{k}: #{v}"} %>. Plant in the spring, harvest in the autumn</Sms>
 </Response>
