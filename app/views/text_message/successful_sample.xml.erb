@@ -1,3 +1,7 @@
 <Response>
-  <Sms>Readings saved with id: <%= @sample.id %>, pH: <%= @sample.pH %>, Temp: <%= @sample.temperature %> and moisture <%= @sample.moisture %></Sms>
+  <Sms>Readings saved with 
+  <% @sample.attributes.keys do |key,value| %>
+    <%= "#{key}: #{value}" unless value.nil? %>
+  <% end %>
+  </Sms>
 </Response>

@@ -14,18 +14,20 @@ class TextMessageController < ApplicationController
     # t.float    "temperature"
   
   def parse
-    message = params[:Body]
-    process_message(message)
+    message = params[:Body]    
+    message.gsub!(/\s+/, '') #remove white space
+
+    if message.blank? || message =~ /\Ainfo\s*\z|start/i
+      render 'instructions.xml.erb', :content_type => 'text/xml' and return
+    else 
+      process_message(message)
+    end
     
   end
   
   def process_message(message)
-    message.gsub!(/\s+/, '') #remove white space
 
-    if message.blank? || message =~ /info|start/
-      render 'instructions.xml.erb', :content_type => 'text/xml' and return
-    end
-    
+    # ph=7.9,temp=31.3,lat=51.112,long=52.1223,moisture=21 
     
     # validate data
     # step data
@@ -37,17 +39,17 @@ class TextMessageController < ApplicationController
    
   end
   
-  def process_data(readings)
-    if readings.length == 3
-      create_sample(readings)
+  def process_data(data)
+    if data.length == 3
+      params = {'pH' => data[0], :temperature => data[1] , :moisture => data[2]}
+      create_sample(params)
     else
       
     end
   end
   
-  def create_sample(data)
-    @sample = SoilSample.create('pH' => data[0], :temperature => data[1] , :moisture => data[2])
-    
+  def create_sample(params)
+    @sample = SoilSample.create(params)
     render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
   end
 end
