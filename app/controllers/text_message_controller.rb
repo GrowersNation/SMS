@@ -34,26 +34,64 @@ class TextMessageController < ApplicationController
     
     # attempt to split the message
     readings = message.split(',')
-
+    
     process_data(readings)
    
   end
   
   def process_data(data)
+    @sample = nil
     if data.length == 3
       params = {'pH' => data[0], :temperature => data[1] , :moisture => data[2]}
-      create_sample(params)
+      sample = SoilSample.create(params)
     else
-      
+      params = split_into_hash(data)
+      @sample = set_soil_params(params)
     end
+    render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
   end
   
-  def create_sample(params)
-    sample = SoilSample.create(params)
-    sample.attributes.keys do |key,value| 
-      @data_string += " #{key}: #{value} " unless value.nil? 
+  # dirty make tidyier
+  def set_soil_params(params)
+    sample = SoilSample.new
+    params.each do |key, value|
+      case key
+        when /pH/i
+          sample.pH = value
+        when /temp/i
+          sample.temperature = value
+        when /long/i
+          sample.long = value
+        when /lat/i
+          sample.lat = value
+        when /moisture|mois/i
+          sample.moisture = value 
+      end
     end
-    
-    render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
+    sample.save
+    return sample
+  end
+  
+  # def match_params_to_model(params)
+  #   soil_columns = SoilSample.column_names.join(' ')
+  #   sample = SoilSample.new()
+  #   params.each do |key, value|
+  #     if soil_columns.match(/#{key}/i)
+  #       sample[key] = value
+  #     end
+  #   end
+  #   debugger
+  #   sample.save
+  # end
+  
+  def split_into_hash(data)
+    params = {}
+    data.split(',').each do |x|
+       x.each do |y|
+        key, value = y.split('=')
+        params[key] = value
+      end    
+    end
+    return params
   end
 end
