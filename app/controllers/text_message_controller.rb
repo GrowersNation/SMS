@@ -15,13 +15,24 @@ class TextMessageController < ApplicationController
   
   def parse
     message = params[:Body]    
-    message.gsub!(/\s+/, '') #remove white space
+
+    message = message + ' '
 
     if message.blank? || message =~ /\Ainfo\s*\z|start/i
       render 'instructions.xml.erb', :content_type => 'text/xml' and return
-    else 
+    elsif message =~ /\Ainfo\s+([A-z]+)\s+([A-z0-9.=\s]+)/i 
+      crop = $1
+      options = $2
+      process_options(options)
+      render 'crop_info.xml.erb', :content_type => 'text/xml' and return
+    else
+      message.gsub!(/\s+/, '') #remove white space
       process_message(message)
     end
+    
+  end
+  
+  def process_options(options)
     
   end
   
@@ -33,7 +44,7 @@ class TextMessageController < ApplicationController
     # step data
     
     # attempt to split the message
-    readings = message.split(',')
+    readings = gsub(/\s*=\s*/, '=').split(/\s+|,/).reject!(&:blank?)
     
     process_data(readings)
    

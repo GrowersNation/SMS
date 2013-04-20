@@ -38,6 +38,13 @@ describe TextMessageController do
         response.should render_template 'successful_sample.xml'
       end
     end
+    
+    context "with data info corn long=56.111 lat=56.222" do
+      it 'renders success' do
+        post :parse, 'Body' => 'info corn long=56.111 lat=56.222'
+        response.should render_template 'crop_info.xml'
+      end
+    end
   end
 end
  
