@@ -16,10 +16,13 @@
 #   t.datetime "updated_at",  :null => false
 # end
 
+SoilSample.destroy_all
+
 100.times do 
-  SampleSample.create(:ph => Random.rand(14.0).round(2),
+  SoilSample.create(:ph => Random.rand(14.0).round(2),
                       :timestamp => Time.now - Random.rand(100),
-                      :latitude => Random.rand(180.0) - 90,
-                      :longitude => Random.rand(360) - 180,
-                      :temperature => Random.ran(40.0))
+                      :latitude => Random.rand(180.0).round(4) - 90,
+                      :longitude => Random.rand(360.0).round(4) - 180,
+                      :temperature => Random.rand(40.0).round(2),
+                      :moisture => Random.rand(100.0).round(2))
 end

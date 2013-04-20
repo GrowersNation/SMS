@@ -1,0 +1,21 @@
+<h1>Listing soil_samples</h1>
+
+<table>
+  <tr>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @soil_samples.each do |soil_sample| %>
+  <tr>
+    <td><%= link_to 'Show', soil_sample %></td>
+    <td><%= link_to 'Edit', edit_soil_sample_path(soil_sample) %></td>
+    <td><%= link_to 'Destroy', soil_sample, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Soil sample', new_soil_sample_path %>
