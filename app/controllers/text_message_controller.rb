@@ -7,25 +7,51 @@ class TextMessageController < ApplicationController
   # "ApiVersion"=>"2010-04-01", "FromCity"=>"", "SmsStatus"=>"received", "From"=>"+447818610137", "FromZip"=>"", 
   # "controller"=>"text_message", "action"=>"parse"}
   
+    # t.float    "ph"
+    # t.float    "longitude"
+    # t.float    "latitude"
+    # t.float    "moisture"
+    # t.float    "temperature"
+  
   def parse
-    message = params[:body]
+    message = params[:Body]
     process_message(message)
     
   end
   
   def process_message(message)
     message.gsub!(/\s+/, '') #remove white space
-    
-    
+    debugger
     if message.blank? || message =~ /info|start|/
       render 'instructions.xml.erb', :content_type => 'text/xml' and return
     end
+    
     
     # validate data
     # step data
     
     # attempt to split the message
-    split = message.split(',')
+    readings = message.split(',')
+
+    process_data(readings)
+   
   end
   
+  def process_data(readings)
+    if readings.length == 3
+      create_sample(readings)
+    else
+      
+    end
+  end
+  
+  def create_sample(data)
+    soil_sample = SoilSample.create do |sample|
+      sample.ph = data[0]
+      sample.temperature = data[1]
+      sample.moisture = data[2]
+    end
+    
+    render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
+  end
 end

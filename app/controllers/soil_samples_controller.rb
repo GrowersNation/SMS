@@ -40,6 +40,7 @@ class SoilSamplesController < ApplicationController
   # POST /soil_samples
   # POST /soil_samples.json
   def create
+    puts params
     @soil_sample = SoilSample.new(params[:soil_sample])
 
     respond_to do |format|

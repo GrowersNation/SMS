@@ -25,11 +25,21 @@ gem 'twilio-ruby'
 gem 'jquery-rails'
 gem 'settingslogic'
 
+  gem 'debugger'
 group :dev do
   gem 'bullet'
-  gem 'debugger'
+
   gem 'better_errors'
 
+end
+
+group :test do
+  gem 'rspec-rails', "~> 2.0"
+  gem 'factory_girl_rails'
+  gem 'faker'
+  gem 'capybara'
+  gem 'guard-rspec'
+  gem 'launchy'
 end
 
 # To use ActiveModel has_secure_password
