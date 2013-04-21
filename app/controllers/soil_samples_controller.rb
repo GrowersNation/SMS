@@ -1,10 +1,8 @@
 class SoilSamplesController < ApplicationController
-  # GET /soil_samples
-  # GET /soil_samples.json
   before_filter :allow_all
-  
   after_filter :cors_preflight_check
   
+  # HACKS
   def allow_all
     headers['Access-Control-Allow-Origin'] = '*'
     headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS, HEAD, PUT, DELETE'
@@ -20,7 +18,7 @@ class SoilSamplesController < ApplicationController
   end
   
   def xss_options_request
-  render :text => ""
+    render :text => ""
   end
   
   def index
@@ -34,9 +32,7 @@ class SoilSamplesController < ApplicationController
       format.json { render json: @soil_samples }
     end
   end
-
-  # GET /soil_samples/1
-  # GET /soil_samples/1.json
+  
   def show
     @soil_sample = SoilSample.find(params[:id])
 
@@ -46,8 +42,6 @@ class SoilSamplesController < ApplicationController
     end
   end
 
-  # GET /soil_samples/new
-  # GET /soil_samples/new.json
   def new
     @soil_sample = SoilSample.new
 
@@ -62,8 +56,6 @@ class SoilSamplesController < ApplicationController
     @soil_sample = SoilSample.find(params[:id])
   end
 
-  # POST /soil_samples
-  # POST /soil_samples.json
   def create
     puts params
     @soil_sample = SoilSample.new(params[:soil_sample])
@@ -79,8 +71,6 @@ class SoilSamplesController < ApplicationController
     end
   end
 
-  # PUT /soil_samples/1
-  # PUT /soil_samples/1.json
   def update
     @soil_sample = SoilSample.find(params[:id])
 
@@ -95,8 +85,6 @@ class SoilSamplesController < ApplicationController
     end
   end
 
-  # DELETE /soil_samples/1
-  # DELETE /soil_samples/1.json
   def destroy
     @soil_sample = SoilSample.find(params[:id])
     @soil_sample.destroy
