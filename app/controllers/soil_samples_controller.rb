@@ -5,7 +5,7 @@ class SoilSamplesController < ApplicationController
    
       @soil_samples =  SoilSample.unscoped
       @soil_samples = @soil_samples.where(:device_id => params[:device_id])  if params[:device_id]
-      @soil_samples = @soil_samples.where(:device_id => params[:device])  if params[:device]
+      @soil_samples = @soil_samples.where(:device => params[:device])  if params[:device]
       
     respond_to do |format|
       format.html # index.html.erb

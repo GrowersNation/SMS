@@ -79,10 +79,11 @@ class TextMessageController < ApplicationController
     if sample.changed?
       sample.device_id = '01234567822'
       sample.device = 'phone'
-      sample.save
-      return sample
-    else
-      return false
+      if sample.save
+        return sample
+      else
+        return false
+      end
     end
   end
 
