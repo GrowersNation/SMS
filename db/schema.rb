@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130421063829) do
+ActiveRecord::Schema.define(:version => 20130421082958) do
 
   create_table "soil_samples", :force => true do |t|
     t.float    "pH"
@@ -22,6 +22,9 @@ ActiveRecord::Schema.define(:version => 20130421063829) do
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
     t.integer  "time"
+    t.string   "device_id"
+    t.text     "comments"
+    t.string   "device"
   end
 
 end
