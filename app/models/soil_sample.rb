@@ -1,5 +1,5 @@
 class SoilSample < ActiveRecord::Base
-  attr_accessible :lat, :long, :moisture, :pH, :temperature, :time, :device_id, :comments
+  attr_accessible :lat, :long, :moisture, :pH, :temperature, :time, :device_id, :comments, :device
   
   validates :lat, :numericality => true    
   validates :long, :numericality => true

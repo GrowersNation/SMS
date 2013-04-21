@@ -20,6 +20,7 @@ class TextMessageController < ApplicationController
   
   def parse
     @original_message = message = params[:Body] + ' '
+    
     if message.blank? || message =~ /\Ainfo\s*\z|start/i
       render 'instructions.xml.erb', :content_type => 'text/xml' and return
     elsif message =~ /\Ainfo\s+([A-z]+)\s+([A-z0-9.=\s]+)/i 
@@ -76,6 +77,8 @@ class TextMessageController < ApplicationController
     end
     
     if sample.changed?
+      sample.device_id = '01234567822'
+      sample.device = 'phone'
       sample.save
       return sample
     else
