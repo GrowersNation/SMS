@@ -20,7 +20,6 @@ class TextMessageController < ApplicationController
   
   def parse
     @original_message = message = params[:Body] + ' '
-    debugger
     if message.blank? || message =~ /\Ainfo\s*\z|start/i
       render 'instructions.xml.erb', :content_type => 'text/xml' and return
     elsif message =~ /\Ainfo\s+([A-z]+)\s+([A-z0-9.=\s]+)/i 
@@ -35,22 +34,26 @@ class TextMessageController < ApplicationController
   
   def request_information(crop, options)
     @crop = crop
-    @options_hash = StringProcessor.string_to_hash(options)
-    if @options_hash.length != 2
-      render 'incorrect_format.xml.erb', :content_type => 'text/xml' and return
-    else
+    @options_hash = MessageParser.string_to_hash(options)
+    if  @options_hash.length == 2 && @options_hash.include?('long') && @options_hash.include?('long')
       # hit external service for data then send back
       render 'crop_info.xml.erb', :content_type => 'text/xml' and return
+    else
+      render 'incorrect_format.xml.erb', :content_type => 'text/xml' and return
     end
   end
   
   def process_sample_data(readings)
     # ph=7.9,temp=31.3,lat=51.112,long=52.1223,moisture=21 
-    readings_hash = StringProcessor.string_to_hash(readings)
+    readings_hash = MessageParser.string_to_hash(readings)
     # send to external service for now save to out DB
     @sample = set_soil_params(readings_hash)
-
-    render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
+    
+    if @sample
+      render 'successful_sample.xml.erb', :content_type => 'text/xml' and return
+    else
+      render 'unknown_command.xml.erb', :content_type => 'text/xml' and return
+    end
   end
   
   # dirty make tidyier
@@ -71,8 +74,13 @@ class TextMessageController < ApplicationController
           sample.moisture = value 
       end
     end
-    sample.save
-    return sample
+    
+    if sample.changed?
+      sample.save
+      return sample
+    else
+      return false
+    end
   end
 
 end

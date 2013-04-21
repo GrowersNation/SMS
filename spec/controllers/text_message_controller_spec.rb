@@ -1,6 +1,8 @@
 require 'spec_helper'
 
 describe TextMessageController do
+  render_views
+  
   describe "POST #parse" do
     context "with blank" do
         it 'renders the instruction template' do
@@ -22,16 +24,6 @@ describe TextMessageController do
         end
       end
       
-    # context "with data in format 9.5,37,70 ph,temp,moisture" do
-    #   it 'renders the success template' do
-    #     post :parse, 'Body' => '9.5, 37, 70'
-    #     response.should render_template 'successful_sample.xml'
-    #   end
-    #   
-    #   it 'saves the data to the database'
-    #     
-    # end
-    
     context "with data ph=7.9,temp=31.3,lat=51.112,long=52.1223,moisture=21 " do
       it 'renders success' do
         post :parse, 'Body' => 'ph=7.9,temp=31.3,lat=51.112,long=52.1223,moisture=21'
@@ -47,11 +39,25 @@ describe TextMessageController do
     end
     
     context "with data info corn long=56.111" do
-      it 'renders success' do
+      it 'renders incorrect format' do
         post :parse, 'Body' => 'info corn long=56.111 '
         response.should render_template 'incorrect_format.xml'
       end
     end
+    
+    context "with data info blaaa blooo dasd asd" do
+      it 'renders incorrect format' do
+        post :parse, 'Body' => 'info blaaa blooo dasd asd'
+        response.should render_template 'incorrect_format.xml'
+      end
+    end
+    
+    # context "with data blaaa blooo dasd asd" do
+    #   it 'renders error' do
+    #     post :parse, 'Body' => 'blaaa blooo dasd asd'
+    #     response.should render_template 'unknown_command.xml'
+    #   end
+    # end
   end
 end
  

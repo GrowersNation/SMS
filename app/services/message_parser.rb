@@ -1,4 +1,4 @@
-class StringProcessor
+class MessageParser
   class << self
     
     def string_to_hash(str)
@@ -22,5 +22,6 @@ class StringProcessor
 
       return params
     end
+    
   end
 end

@@ -3,3 +3,13 @@
 
 en:
   hello: "Hello world"
+  soil_sample_attributes:
+    temperature: temp|temperature
+    moisture: moist|moiusture
+    longitude: long|longitude
+    latitude: lat|latitude
+    pH: pH
+    time: time
+  
+      
+    
