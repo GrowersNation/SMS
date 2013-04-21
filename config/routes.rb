@@ -6,6 +6,8 @@ SoilTestingKitSoftware::Application.routes.draw do
   match 'text_message/parse' => 'text_message#parse'
   resources :soil_samples
   
+  match "soil_samples/:id" => "soil_samples#xss_options_request", :constraints => {:method => "OPTIONS"}
+  
   # Sample of regular route:
   #   match 'products/:id' => 'catalog#view'
   # Keep in mind you can assign values other than :controller and :action

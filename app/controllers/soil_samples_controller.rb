@@ -22,6 +22,10 @@ class SoilSamplesController < ApplicationController
     end
   end
   
+  def xss_options_request
+  render :text => ""
+  end
+  
   def index
    
       @soil_samples =  SoilSample.unscoped
