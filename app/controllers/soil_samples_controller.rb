@@ -5,7 +5,7 @@ class SoilSamplesController < ApplicationController
   
   def allow_all
     headers['Access-Control-Allow-Origin'] = '*'
-    
+    headers['Access-Control-Allow-Methods'] = 'GET, POST, OPTIONS, HEAD, PUT, DELETE'
   end
   
   def index
