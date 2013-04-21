@@ -9,10 +9,11 @@ class AddDeviceIdSAndDevice < ActiveRecord::Migration
     super
       if direction == :up
         n = 10
-        SoilSample.find_each(:batch_size => 10) do |sample|
+        SoilSample.all.each do |sample|
       
           sample.device_id = '$LW1000' + (n /10).to_s
           sample.comments = ['The soil was wet', 'The soil had lots of clay', 'The soil was dry', 'The soil had many bugs'].sample
+          sample.device = ['phone', 'probe'].sample
           sample.save
           n+=1
       end
